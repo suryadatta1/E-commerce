@@ -36,8 +36,9 @@ app.use(errorController.get404);
 
 mongoose
   .connect(
-    'mongodb://surya:surya1234@ds121406.mlab.com:21406/shop'
-  )
+    'mongodb://surya:surya1234@ds121406.mlab.com:21406/shop',{ 
+      useNewUrlParser: true 
+    })
   .then(result => {
     User.findOne().then(user => {
       if (!user) {
@@ -51,7 +52,9 @@ mongoose
         user.save();
       }
     });
-    app.listen(3000);
+    app.listen(5000,()=>{
+      console.log("server running on port 5000")
+    });
   })
   .catch(err => {
     console.log(err);
