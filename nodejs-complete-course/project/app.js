@@ -59,25 +59,15 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true 
 })
   .then(result => {
-    User.findOne()
-    .then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'Max',
-          email: 'max@test.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-     }
+    
      console.log("mlab connected");
+    })
+    .catch(err => {
+      console.log(err);
     });
+  
     
     app.listen(5000,()=>{
       console.log(`server running on port ${port}`);
-    })
-  })
-  .catch(err => {
-    console.log(err);
-  });
+    });
+  
