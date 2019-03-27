@@ -1,9 +1,6 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-  if(req.session.isLoggedIn){
-    return res.redirect('/');
-  }
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
@@ -28,7 +25,7 @@ exports.postAddProduct = (req, res, next) => {
     .save()
     .then(result => {
       // console.log(result);
-      console.log('Created Product');
+     // console.log('Created Product');
       res.redirect('/admin/products');
     })
     .catch(err => {
