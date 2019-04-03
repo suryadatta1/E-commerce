@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
       api_key:
-        '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'
+        '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'
     }
   })
 );
@@ -213,7 +213,7 @@ exports.postReset = (req, res, next) => {
           subject: 'Password reset',
           html: `
             <p>You requested a password reset</p>
-            <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+            <p>Click this <a href="http://localhost:5000/reset/${token}">link</a> to set a new password.</p>
           `
         });
       })
