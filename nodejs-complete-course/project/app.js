@@ -1,16 +1,18 @@
-const path = require('path');
+const path = require("path");
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const csrf = require('csurf');
-const flash = require('connect-flash');
-const multer = require('multer');
-const port = process.env.port||5000
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const csrf = require("csurf");
+const flash = require("connect-flash");
+const multer = require("multer");
+const port = process.env.port || 5000;
 
 const errorController = require('./controllers/error');
+const shopController = require('./controllers/shop');
+const isAuth = require('./middleware/is-auth');
 const User = require('./models/user');
 
 const MONGODB_URI = "mongodb://surya:surya1234@ds121406.mlab.com:21406/shop";
@@ -64,12 +66,11 @@ app.use(
     store: store
   })
 );
-app.use(csrfProtection);
+
 app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
   next();
 });
 
@@ -89,6 +90,14 @@ app.use((req, res, next) => {
     .catch(err => {
       next(new Error(err));
     });
+});
+
+app.post('/create-order', isAuth, shopController.postOrder);
+
+app.use(csrfProtection);
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
 });
 
 app.use('/admin', adminRoutes);
